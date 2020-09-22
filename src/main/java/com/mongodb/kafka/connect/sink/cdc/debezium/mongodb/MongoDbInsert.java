@@ -38,7 +38,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class MongoDbInsert implements CdcOperation {
-
   private static final Logger LOGGER = LoggerFactory.getLogger(MongoDbInsert.class);
   private static final ReplaceOptions REPLACE_OPTIONS = new ReplaceOptions().upsert(true);
   private static final String JSON_DOC_FIELD_PATH = "after";
