@@ -330,10 +330,14 @@ public class MongoSinkTask extends SinkTask {
 
     if (keyDoc.isPresent()) {
       keyDocMain = keyDoc.get();
+      valueDocMain.put("__db", new BsonString("foobla"));
     }
 
-    return new SinkDocument(keyDocMain, valueDocMain);
+    SinkDocument sinkDoc = new SinkDocument(keyDocMain, valueDocMain);
+
+    LOGGER.info("namphan:sinkdoc:" + sinkDoc.toString())
     
+    return sinkDoc;
     // doc.docValue.put("__db", new BsonString("foobla"));
 
     // return doc;
