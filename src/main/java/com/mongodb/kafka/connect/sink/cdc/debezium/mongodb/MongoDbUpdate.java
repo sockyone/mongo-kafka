@@ -54,7 +54,12 @@ public class MongoDbUpdate implements CdcOperation {
     try {
       BsonDocument updateDoc =
           BsonDocument.parse(valueDoc.getString(JSON_DOC_FIELD_PATH).getValue());
-
+      
+      BsonDocument sourceDoc = BsonDocument.parse(valueDoc.get('source').asString().getValue());
+      BsonString sourceDB = sourceDoc.get('db').asString();
+      updateDoc.put("__db",  sourceDB);
+          
+      // insertDoc.put("__db", new BsonString("foobla"));
       // Check if the internal "$v" field is contained which was added to the
       // oplog format in 3.6+ If so, then we simply remove it for now since
       // it's not used by the sink connector at the moment and would break
@@ -80,6 +85,8 @@ public class MongoDbUpdate implements CdcOperation {
       BsonDocument filterDoc =
           BsonDocument.parse(
               format("{%s: %s}", ID_FIELD, keyDoc.getString(JSON_ID_FIELD).getValue()));
+
+        
       return new UpdateOneModel<>(filterDoc, updateDoc);
 
     } catch (DataException exc) {

@@ -349,12 +349,9 @@ public class MongoSinkTask extends SinkTask {
         "Building CDC write model for {} record(s) for topic {}",
         records.size(),
         config.getTopic());
-
     
-    LOGGER.info("NAM PHAN");
-    LOGGER.info("namphan:" + records.toString());
-
-    
+    // LOGGER.info("NAM PHAN");
+    // LOGGER.info("namphan:" + records.toString());
 
     return records.stream()
         .map(sinkConverter::convert)
