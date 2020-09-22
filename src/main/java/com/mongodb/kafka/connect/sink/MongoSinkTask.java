@@ -320,6 +320,8 @@ public class MongoSinkTask extends SinkTask {
 
     
     LOGGER.info("NAM PHAN");
+    LOGGER.info(records.toString());
+
     return records.stream()
         .map(sinkConverter::convert)
         .map(sd -> config.getCdcHandler().flatMap(c -> c.handle(sd)))
