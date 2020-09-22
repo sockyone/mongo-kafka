@@ -55,8 +55,8 @@ public class MongoDbUpdate implements CdcOperation {
       BsonDocument updateDoc =
           BsonDocument.parse(valueDoc.getString(JSON_DOC_FIELD_PATH).getValue());
       
-      BsonDocument sourceDoc = BsonDocument.parse(valueDoc.get('source').asString().getValue());
-      BsonString sourceDB = sourceDoc.get('db').asString().getValue();
+      BsonDocument sourceDoc = BsonDocument.parse(valueDoc.get("source").asString().getValue());
+      BsonString sourceDB = sourceDoc.get("db").asString().getValue();
       updateDoc.put("__db",  sourceDB);
           
       // insertDoc.put("__db", new BsonString("foobla"));

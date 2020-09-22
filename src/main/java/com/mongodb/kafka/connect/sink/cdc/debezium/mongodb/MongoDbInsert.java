@@ -55,8 +55,8 @@ public class MongoDbInsert implements CdcOperation {
       BsonDocument insertDoc =
           BsonDocument.parse(valueDoc.get(JSON_DOC_FIELD_PATH).asString().getValue());
 
-      BsonDocument sourceDoc = BsonDocument.parse(valueDoc.get('source').asString().getValue());
-      BsonString sourceDB = sourceDoc.get('db').asString().getValue();
+      BsonDocument sourceDoc = BsonDocument.parse(valueDoc.get("source").asString().getValue());
+      BsonString sourceDB = sourceDoc.get("db").asString().getValue();
       insertDoc.put("__db",  sourceDB);
 
       return new ReplaceOneModel<>(
