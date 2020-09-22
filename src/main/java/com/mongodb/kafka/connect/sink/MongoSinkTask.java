@@ -47,6 +47,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.bson.BsonDocument;
+import org.bson.BsonString;
 
 import com.mongodb.MongoBulkWriteException;
 import com.mongodb.MongoException;
@@ -311,6 +312,13 @@ public class MongoSinkTask extends SinkTask {
     }
   }
 
+
+  private SinkDocument putAnotherField(SinkDocument doc) {
+    doc.put("__db", new BsonString("foobla"));
+
+    return doc;
+  }
+
   List<? extends WriteModel<BsonDocument>> buildWriteModelCDC(
       final MongoSinkTopicConfig config, final Collection<SinkRecord> records) {
     LOGGER.debug(
@@ -322,8 +330,11 @@ public class MongoSinkTask extends SinkTask {
     LOGGER.info("NAM PHAN");
     LOGGER.info("namphan:" + records.toString());
 
+    
+
     return records.stream()
         .map(sinkConverter::convert)
+        .map(sd -> putAnotherField(sd))
         .map(sd -> config.getCdcHandler().flatMap(c -> c.handle(sd)))
         .flatMap(o -> o.map(Stream::of).orElseGet(Stream::empty))
         .collect(Collectors.toList());
