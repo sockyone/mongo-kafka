@@ -319,11 +319,12 @@ public class MongoSinkTask extends SinkTask {
     Optional<BsonDocument> valueDoc = doc.getValueDoc();
     Optional<BsonDocument> keyDoc = doc.getKeyDoc();
 
-    if (valueDoc.isPresent()) {
-      valueDoc.put("__db", new BsonString("foobla"));
-    }
+    valueDoc.isPresent( rd -> {
+      rd.put("__db", new BsonString("foobla"));
+      return new SinkDocument(keyDoc, valueDoc);
+    });
 
-    return new SinkDocument(keyDoc, valueDoc);
+    return doc;
     
     // doc.docValue.put("__db", new BsonString("foobla"));
 
