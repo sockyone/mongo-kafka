@@ -62,7 +62,7 @@ import com.mongodb.kafka.connect.sink.converter.SinkDocument;
 import com.mongodb.kafka.connect.sink.processor.PostProcessors;
 
 public class MongoSinkTask extends SinkTask {
-  private static final Logger LOGGER = LoggerFactory.getLogger(MongoSinkTask.class);
+  private static final java.util.logging.Logger LOGGER = LoggerFactory.getLogger(MongoSinkTask.class);
   private static final String CONNECTOR_TYPE = "sink";
   private static final BulkWriteOptions BULK_WRITE_OPTIONS = new BulkWriteOptions();
 
@@ -319,7 +319,7 @@ public class MongoSinkTask extends SinkTask {
         config.getTopic());
 
     
-    LOGGER.debug(
+    LOGGER.info(
       "NAM PHAN EDITED THIS ONE"
     );
     PostProcessors postProcessors = config.getPostProcessors();
