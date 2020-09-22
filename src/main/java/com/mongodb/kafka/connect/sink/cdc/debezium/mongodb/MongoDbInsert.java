@@ -33,12 +33,10 @@ import com.mongodb.client.model.WriteModel;
 
 import com.mongodb.kafka.connect.sink.cdc.CdcOperation;
 import com.mongodb.kafka.connect.sink.converter.SinkDocument;
-
-// import org.slf4j.Logger;
-// import org.slf4j.LoggerFactory;
+import com.mongodb.kafka.connect.source.schema.BsonDocumentToSchema;
 
 public class MongoDbInsert implements CdcOperation {
-  // private static final Logger LOGGER = LoggerFactory.getLogger(MongoDbInsert.class);
+
   private static final ReplaceOptions REPLACE_OPTIONS = new ReplaceOptions().upsert(true);
   private static final String JSON_DOC_FIELD_PATH = "after";
 
@@ -57,12 +55,11 @@ public class MongoDbInsert implements CdcOperation {
     try {
       BsonDocument insertDoc =
           BsonDocument.parse(valueDoc.get(JSON_DOC_FIELD_PATH).asString().getValue());
-
-      BsonDocument sourceDoc = BsonDocument.parse(valueDoc.get("source").asString().getValue());
-      // LOGGER.info('namphan:' + sourceDoc.toString());
-      // BsonString sourceDB = sourceDoc.getString("db");
-      // LOGGER.info('namphan:' + sourceDB.toString());
-      // insertDoc.put("__db",  sourceDB);
+      
+      BsonDocument sourceDoc = 
+        BsonDocument.parse(valueDoc.get("source").asString().getValue());
+        
+      insertDoc.put("__db", new BsonString("foobla"));
 
       return new ReplaceOneModel<>(
           new BsonDocument(ID_FIELD, insertDoc.get(ID_FIELD)), insertDoc, REPLACE_OPTIONS);
