@@ -62,7 +62,7 @@ import com.mongodb.kafka.connect.sink.converter.SinkDocument;
 import com.mongodb.kafka.connect.sink.processor.PostProcessors;
 
 public class MongoSinkTask extends SinkTask {
-  private static final java.util.logging.Logger LOGGER = LoggerFactory.getLogger(MongoSinkTask.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(MongoSinkTask.class);
   private static final String CONNECTOR_TYPE = "sink";
   private static final BulkWriteOptions BULK_WRITE_OPTIONS = new BulkWriteOptions();
 
@@ -317,14 +317,6 @@ public class MongoSinkTask extends SinkTask {
         "Building CDC write model for {} record(s) for topic {}",
         records.size(),
         config.getTopic());
-
-    PostProcessors postProcessors = config.getPostProcessors();
-    records.forEach(
-        record -> {
-          SinkDocument document = sinkConverter.convert(record);
-          tryPostProcessors(config, postProcessors, record, document);
-        });
-
     return records.stream()
         .map(sinkConverter::convert)
         .map(sd -> config.getCdcHandler().flatMap(c -> c.handle(sd)))
