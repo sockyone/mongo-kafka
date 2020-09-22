@@ -61,6 +61,7 @@ import com.mongodb.kafka.connect.Versions;
 import com.mongodb.kafka.connect.sink.converter.SinkConverter;
 import com.mongodb.kafka.connect.sink.converter.SinkDocument;
 import com.mongodb.kafka.connect.sink.processor.PostProcessors;
+import com.mongodb.kafka.connect.source.schema.BsonDocumentToSchema;
 
 public class MongoSinkTask extends SinkTask {
   private static final Logger LOGGER = LoggerFactory.getLogger(MongoSinkTask.class);
@@ -314,9 +315,16 @@ public class MongoSinkTask extends SinkTask {
 
 
   private SinkDocument putAnotherField(SinkDocument doc) {
-    doc.put("__db", new BsonString("foobla"));
+    BsonDocument valueDoc = doc.getValueDoc();
+    BsonDocument keyDoc = doc.getKeyDoc();
 
-    return doc;
+    valueDoc.put("__db", new BsonString("foobla"));
+
+    return new SinkDocument(keyDoc, valueDoc);
+    
+    // doc.docValue.put("__db", new BsonString("foobla"));
+
+    // return doc;
   }
 
   List<? extends WriteModel<BsonDocument>> buildWriteModelCDC(
