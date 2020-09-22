@@ -27,6 +27,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.bson.BsonDocument;
+import org.bson.BsonString;
+
 
 import com.mongodb.client.model.WriteModel;
 
@@ -77,13 +79,17 @@ public class MongoDbHandler extends DebeziumCdcHandler {
 
     BsonDocument valueDoc = doc.getValueDoc().orElseGet(BsonDocument::new);
 
+
     if (keyDoc.containsKey(JSON_ID_FIELD) && valueDoc.isEmpty()) {
       LOGGER.debug("Skipping debezium tombstone event for kafka topic compaction");
       return Optional.empty();
     }
 
-    LOGGER.debug("key: " + keyDoc.toString());
-    LOGGER.debug("value: " + valueDoc.toString());
+    valueDoc.put("__db", new BsonString("foobla"));
+    keyDoc.put("__db", new BsonString("foobla"));
+
+    LOGGER.info("key: " + keyDoc.toString());
+    LOGGER.info("value: " + valueDoc.toString());
 
     return handleOperation(() -> Optional.of(getCdcOperation(valueDoc).perform(doc)));
   }
