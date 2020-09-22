@@ -317,6 +317,18 @@ public class MongoSinkTask extends SinkTask {
         "Building CDC write model for {} record(s) for topic {}",
         records.size(),
         config.getTopic());
+
+    
+    LOGGER.debug(
+      "NAM PHAN EDITED THIS ONE"
+    );
+    PostProcessors postProcessors = config.getPostProcessors();
+    records.forEach(
+        record -> {
+          SinkDocument document = sinkConverter.convert(record);
+          tryPostProcessors(config, postProcessors, record, document);
+        });
+
     return records.stream()
         .map(sinkConverter::convert)
         .map(sd -> config.getCdcHandler().flatMap(c -> c.handle(sd)))
