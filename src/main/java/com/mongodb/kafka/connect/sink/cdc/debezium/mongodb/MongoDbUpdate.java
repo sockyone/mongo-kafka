@@ -25,6 +25,7 @@ import static java.lang.String.format;
 import org.apache.kafka.connect.errors.DataException;
 
 import org.bson.BsonDocument;
+import org.bson.BsonString;
 
 import com.mongodb.client.model.ReplaceOneModel;
 import com.mongodb.client.model.ReplaceOptions;
