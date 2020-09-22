@@ -48,6 +48,7 @@ import org.slf4j.LoggerFactory;
 
 import org.bson.BsonDocument;
 import org.bson.BsonString;
+import java.util.Optional;
 
 import com.mongodb.MongoBulkWriteException;
 import com.mongodb.MongoException;
