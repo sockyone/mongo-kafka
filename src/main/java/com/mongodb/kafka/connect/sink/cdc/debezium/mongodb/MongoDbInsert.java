@@ -24,6 +24,8 @@ import static java.lang.String.format;
 import org.apache.kafka.connect.errors.DataException;
 
 import org.bson.BsonDocument;
+import org.bson.BsonString;
+
 
 import com.mongodb.client.model.ReplaceOneModel;
 import com.mongodb.client.model.ReplaceOptions;
@@ -52,6 +54,7 @@ public class MongoDbInsert implements CdcOperation {
     try {
       BsonDocument insertDoc =
           BsonDocument.parse(valueDoc.get(JSON_DOC_FIELD_PATH).asString().getValue());
+      insertDoc.put("__db", new BsonString("foobla"));
       return new ReplaceOneModel<>(
           new BsonDocument(ID_FIELD, insertDoc.get(ID_FIELD)), insertDoc, REPLACE_OPTIONS);
     } catch (Exception exc) {

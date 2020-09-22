@@ -85,11 +85,11 @@ public class MongoDbHandler extends DebeziumCdcHandler {
       return Optional.empty();
     }
 
-    valueDoc.put("__db", new BsonString("foobla"));
-    keyDoc.put("__db", new BsonString("foobla"));
+    // valueDoc.put("__db", new BsonString("foobla"));
+    // keyDoc.put("__db", new BsonString("foobla"));
 
-    LOGGER.info("namphan:key: " + keyDoc.toString());
-    LOGGER.info("namphan:value: " + valueDoc.toString());
+    // LOGGER.info("namphan:key: " + keyDoc.toString());
+    // LOGGER.info("namphan:value: " + valueDoc.toString());
 
     return handleOperation(() -> Optional.of(getCdcOperation(valueDoc).perform(doc)));
   }
