@@ -318,7 +318,6 @@ public class MongoSinkTask extends SinkTask {
         records.size(),
         config.getTopic());
 
-    LOGGER.info("Nam Phan");
     PostProcessors postProcessors = config.getPostProcessors();
     records.forEach(
         record -> {
