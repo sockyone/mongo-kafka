@@ -315,33 +315,33 @@ public class MongoSinkTask extends SinkTask {
   }
 
 
-  private SinkDocument putAnotherField(SinkDocument doc) {
-    Optional<BsonDocument> valueDoc = doc.getValueDoc();
-    Optional<BsonDocument> keyDoc = doc.getKeyDoc();
+  // private SinkDocument putAnotherField(SinkDocument doc) {
+  //   Optional<BsonDocument> valueDoc = doc.getValueDoc();
+  //   Optional<BsonDocument> keyDoc = doc.getKeyDoc();
 
-    BsonDocument valueDocMain = null;
-    BsonDocument keyDocMain = null;
+  //   BsonDocument valueDocMain = null;
+  //   BsonDocument keyDocMain = null;
 
-    if (valueDoc.isPresent()) {
-      // save
-      valueDocMain = valueDoc.get();
-      valueDocMain.put("__db", new BsonString("foobla"));
-    }
+  //   if (valueDoc.isPresent()) {
+  //     // save
+  //     valueDocMain = valueDoc.get();
+  //     valueDocMain.put("__db", new BsonString("foobla"));
+  //   }
 
-    if (keyDoc.isPresent()) {
-      keyDocMain = keyDoc.get();
-      valueDocMain.put("__db", new BsonString("foobla"));
-    }
+  //   if (keyDoc.isPresent()) {
+  //     keyDocMain = keyDoc.get();
+  //     valueDocMain.put("__db", new BsonString("foobla"));
+  //   }
 
-    SinkDocument sinkDoc = new SinkDocument(keyDocMain, valueDocMain);
+  //   SinkDocument sinkDoc = new SinkDocument(keyDocMain, valueDocMain);
 
-    LOGGER.info("namphan:sinkdoc:" + sinkDoc.toString());
+  //   LOGGER.info("namphan:sinkdoc:" + sinkDoc.toString());
     
-    return sinkDoc;
-    // doc.docValue.put("__db", new BsonString("foobla"));
+  //   return sinkDoc;
+  //   // doc.docValue.put("__db", new BsonString("foobla"));
 
-    // return doc;
-  }
+  //   // return doc;
+  // }
 
   List<? extends WriteModel<BsonDocument>> buildWriteModelCDC(
       final MongoSinkTopicConfig config, final Collection<SinkRecord> records) {
@@ -358,7 +358,6 @@ public class MongoSinkTask extends SinkTask {
 
     return records.stream()
         .map(sinkConverter::convert)
-        .map(sd -> putAnotherField(sd))
         .map(sd -> config.getCdcHandler().flatMap(c -> c.handle(sd)))
         .flatMap(o -> o.map(Stream::of).orElseGet(Stream::empty))
         .collect(Collectors.toList());
