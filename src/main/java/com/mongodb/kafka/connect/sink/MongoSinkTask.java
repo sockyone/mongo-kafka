@@ -320,7 +320,7 @@ public class MongoSinkTask extends SinkTask {
 
     
     LOGGER.info("NAM PHAN");
-    LOGGER.info(records.toString());
+    LOGGER.info("namphan:" + records.toString());
 
     return records.stream()
         .map(sinkConverter::convert)
