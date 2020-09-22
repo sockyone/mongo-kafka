@@ -315,10 +315,12 @@ public class MongoSinkTask extends SinkTask {
 
 
   private SinkDocument putAnotherField(SinkDocument doc) {
-    BsonDocument valueDoc = doc.getValueDoc();
-    BsonDocument keyDoc = doc.getKeyDoc();
+    Optional<BsonDocument> valueDoc = doc.getValueDoc();
+    Optional<BsonDocument> keyDoc = doc.getKeyDoc();
 
-    valueDoc.put("__db", new BsonString("foobla"));
+    if (valueDoc.isPresent()) {
+      valueDoc.put("__db", new BsonString("foobla"));
+    }
 
     return new SinkDocument(keyDoc, valueDoc);
     
